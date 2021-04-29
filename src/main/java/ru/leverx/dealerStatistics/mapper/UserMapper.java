@@ -34,6 +34,7 @@ public class UserMapper {
         userResponseDto.setEmail(user.getEmail());
         userResponseDto.setPassword(user.getPassword()); // TODO ???
         userResponseDto.setUserRole(user.getUserRole());
+        userResponseDto.setRaiting(user.getRaiting());
         userResponseDto.setFeedbacks(feedbackMapper.toDtos(user.getFeedbacks()));
         userResponseDto.setGames(gameMapper.toDtos(user.getGames()));
         return userResponseDto;

@@ -38,6 +38,8 @@ public class UserResponseDto extends BaseDto {
     @NotNull
     private UserRole userRole;
 
+    private Double raiting;
+
     @NotEmpty
     private List<FeedbackDto> feedbacks;
 

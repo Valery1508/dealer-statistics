@@ -9,6 +9,7 @@ import ru.leverx.dealerStatistics.entity.User;
 import ru.leverx.dealerStatistics.entity.UserRole;
 import ru.leverx.dealerStatistics.exception.EntityNotFoundException;
 import ru.leverx.dealerStatistics.mapper.UserMapper;
+import ru.leverx.dealerStatistics.repository.FeedbackRepository;
 import ru.leverx.dealerStatistics.repository.UserRepository;
 import ru.leverx.dealerStatistics.service.UserService;
 
@@ -21,6 +22,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private FeedbackRepository feedbackRepository;
+
+    @Autowired
     private UserMapper userMapper;
 
     @Override
@@ -28,13 +32,18 @@ public class UserServiceImpl implements UserService {
         userDto.setUserRole(UserRole.TREIDER);
         User user = userMapper.toEntity(userDto);
         User saved = userRepository.save(user);
+        calculateUserRating(saved);
         return userMapper.toDto(saved);
     }
 
     @Override
     public UserResponseDto get(Long id) {
+        calculateUserRating(userRepository.findById(id).get());
         return userRepository.findById(id).map(userMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("User with id = " + id + " doesn't exist!"));
     }
 
+    public void calculateUserRating(User user) {
+        user.setRaiting(feedbackRepository.findRatingByUserId(user.getId()));
+    }
 }
