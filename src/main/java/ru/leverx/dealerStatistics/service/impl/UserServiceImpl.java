@@ -13,6 +13,9 @@ import ru.leverx.dealerStatistics.repository.FeedbackRepository;
 import ru.leverx.dealerStatistics.repository.UserRepository;
 import ru.leverx.dealerStatistics.service.UserService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -45,5 +48,14 @@ public class UserServiceImpl implements UserService {
 
     public void calculateUserRating(User user) {
         user.setRaiting(feedbackRepository.findRatingByUserId(user.getId()));
+    }
+
+    @Override
+    public List<UserResponseDto> getUsersByRole(UserRole role) {
+        return listToDto(userRepository.findByUserRole(role));
+    }
+
+    public List<UserResponseDto> listToDto(List<User> users) {
+        return users.stream().map(userMapper::toDto).collect(Collectors.toList());
     }
 }
