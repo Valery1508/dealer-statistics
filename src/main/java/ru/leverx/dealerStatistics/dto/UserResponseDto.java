@@ -40,4 +40,7 @@ public class UserResponseDto extends BaseDto {
 
     @NotEmpty
     private List<FeedbackDto> feedbacks;
+
+    @NotEmpty
+    private List<GameDto> games;
 }

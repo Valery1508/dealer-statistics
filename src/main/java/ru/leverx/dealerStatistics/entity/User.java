@@ -33,9 +33,9 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    /*@OneToMany(mappedBy = "user")
-    private List<Game> games = new ArrayList<>();*/
-
     @OneToMany(mappedBy = "user")
     private List<Feedback> feedbacks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Game> games = new ArrayList<>();
 }

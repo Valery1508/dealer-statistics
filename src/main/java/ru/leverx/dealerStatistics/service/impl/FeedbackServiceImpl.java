@@ -8,7 +8,6 @@ import ru.leverx.dealerStatistics.entity.Feedback;
 import ru.leverx.dealerStatistics.exception.EntityNotFoundException;
 import ru.leverx.dealerStatistics.mapper.FeedbackMapper;
 import ru.leverx.dealerStatistics.repository.FeedbackRepository;
-import ru.leverx.dealerStatistics.repository.UserRepository;
 import ru.leverx.dealerStatistics.service.FeedbackService;
 
 import java.util.List;
@@ -21,9 +20,6 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Autowired
     //@Qualifier("userRepository")
     private FeedbackRepository feedbackRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private FeedbackMapper feedbackMapper;
@@ -43,11 +39,11 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public List<FeedbackDto> getFeedbacks(){
+    public List<FeedbackDto> getFeedbacks() {
         return listToDto(feedbackRepository.findAll());
     }
 
-    public List<FeedbackDto> listToDto(List<Feedback> feedbacks){
+    public List<FeedbackDto> listToDto(List<Feedback> feedbacks) {
         return feedbacks.stream().map(feedbackMapper::toDto).collect(Collectors.toList());
     }
 }

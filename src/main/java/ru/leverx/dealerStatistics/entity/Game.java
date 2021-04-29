@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "games", schema = "public")
-public class Game extends BaseEntity{
+public class Game extends BaseEntity {
 
     @Column(name = "name")
     private String name;

@@ -12,7 +12,10 @@ public class UserMapper {
     @Autowired
     private FeedbackMapper feedbackMapper;
 
-    public User toEntity(UserDto userDto){
+    @Autowired
+    private GameMapper gameMapper;
+
+    public User toEntity(UserDto userDto) {
         User user = new User();
         user.setId(userDto.getId());
         user.setFirstName(userDto.getFirstName());
@@ -23,7 +26,7 @@ public class UserMapper {
         return user;
     }
 
-    public UserResponseDto toDto(User user){
+    public UserResponseDto toDto(User user) {
         UserResponseDto userResponseDto = new UserResponseDto();
         userResponseDto.setId(user.getId());
         userResponseDto.setFirstName(user.getFirstName());
@@ -32,6 +35,7 @@ public class UserMapper {
         userResponseDto.setPassword(user.getPassword()); // TODO ???
         userResponseDto.setUserRole(user.getUserRole());
         userResponseDto.setFeedbacks(feedbackMapper.toDtos(user.getFeedbacks()));
+        userResponseDto.setGames(gameMapper.toDtos(user.getGames()));
         return userResponseDto;
     }
 }

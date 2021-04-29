@@ -8,6 +8,8 @@ import java.util.List;
 @Service
 public interface FeedbackService {
     FeedbackDto create(FeedbackDto feedbackDto);
+
     FeedbackDto get(Long id);
+
     List<FeedbackDto> getFeedbacks();
 }

@@ -15,7 +15,7 @@ public class FeedbackMapper {
     @Autowired
     private UserRepository userRepository;
 
-    public Feedback toEntity(FeedbackDto feedbackDto){
+    public Feedback toEntity(FeedbackDto feedbackDto) {
         Feedback feedback = new Feedback();
         feedback.setId(feedbackDto.getId());
         feedback.setMessage(feedbackDto.getMessage());
@@ -24,7 +24,7 @@ public class FeedbackMapper {
         return feedback;
     }
 
-    public FeedbackDto toDto(Feedback feedback){
+    public FeedbackDto toDto(Feedback feedback) {
         FeedbackDto feedbackDto = new FeedbackDto();
         feedbackDto.setId(feedback.getId());
         feedbackDto.setMessage(feedback.getMessage());
@@ -33,7 +33,7 @@ public class FeedbackMapper {
         return feedbackDto;
     }
 
-    public List<FeedbackDto> toDtos(List<Feedback> feedbacks){
+    public List<FeedbackDto> toDtos(List<Feedback> feedbacks) {
         return feedbacks.stream().map(this::toDto).collect(Collectors.toList());
     }
 }

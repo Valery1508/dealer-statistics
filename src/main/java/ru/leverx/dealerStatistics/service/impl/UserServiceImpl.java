@@ -17,7 +17,7 @@ import ru.leverx.dealerStatistics.service.UserService;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-        //@Qualifier("userRepository")
+    //@Qualifier("userRepository")
     private UserRepository userRepository;
 
     @Autowired
