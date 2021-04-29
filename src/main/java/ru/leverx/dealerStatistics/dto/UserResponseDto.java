@@ -5,19 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.leverx.dealerStatistics.entity.BaseEntity;
 import ru.leverx.dealerStatistics.entity.UserRole;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto extends BaseEntity {
-
+public class UserResponseDto extends BaseDto {
     @NotBlank
     @Size(min = 1, max = 50)
     private String firstName;
@@ -38,10 +38,6 @@ public class UserDto extends BaseEntity {
     @NotNull
     private UserRole userRole;
 
-    ///
-    /*@NotEmpty
-    private List<FeedbackDto> feedbacks;*/
-
-    /*@NotEmpty
-    private List<GameDto> games;*/
+    @NotEmpty
+    private List<FeedbackDto> feedbacks;
 }
