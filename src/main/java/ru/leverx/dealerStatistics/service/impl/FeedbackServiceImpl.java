@@ -48,6 +48,15 @@ public class FeedbackServiceImpl implements FeedbackService {
         return listToDto(feedbackRepository.findAllByUserId(userId));
     }
 
+    @Override
+    public FeedbackDto approve(Long userId, Long feedbackId) {
+        Feedback feedback = feedbackRepository.findById(feedbackId)
+                .orElseThrow(() -> new EntityNotFoundException("Feedback with id = " + feedbackId + " doesn't exist!"));
+        feedback.setApproved(true);
+        feedbackRepository.save(feedback);
+        return feedbackMapper.toDto(feedback);
+    }
+
     public List<FeedbackDto> listToDto(List<Feedback> feedbacks) {
         return feedbacks.stream().map(feedbackMapper::toDto).collect(Collectors.toList());
     }

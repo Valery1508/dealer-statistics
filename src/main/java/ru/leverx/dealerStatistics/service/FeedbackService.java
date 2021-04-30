@@ -14,4 +14,6 @@ public interface FeedbackService {
     List<FeedbackDto> getFeedbacks();
 
     List<FeedbackDto> getFeedbacksByUserId(Long userId);
+
+    FeedbackDto approve(Long userId, Long feedbackId);
 }

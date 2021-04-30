@@ -15,4 +15,5 @@ public interface UserService {
 
     List<UserResponseDto> getUsersByRole(UserRole role);
 
+    UserResponseDto approve(Long id);
 }

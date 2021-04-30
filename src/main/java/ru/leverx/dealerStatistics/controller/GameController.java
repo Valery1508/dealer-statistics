@@ -21,6 +21,7 @@ public class GameController {
         return ResponseEntity.ok(gameService.get(id));
     }
 
+    //only authorized treider can do this
     @PostMapping
     public ResponseEntity<GameDto> create(@Valid @RequestBody GameDto gameDto) {
         return ResponseEntity.ok(gameService.create(gameDto));
@@ -31,13 +32,13 @@ public class GameController {
         return gameService.getGames();
     }
 
-
+    //only authorized treider can do this
     @PutMapping("/{gameId}")
     public ResponseEntity<GameDto> changeGame(@PathVariable Long gameId, @Valid @RequestBody GameDto gameDto){
         return ResponseEntity.ok(gameService.change(gameDto, gameId));
     }
 
-    // delete game of treider (by treider)
+    //only authorized treider can do this
     @DeleteMapping("/{gameId}")
     public List<GameDto> deleteGame(@PathVariable Long gameId){
         return gameService.delete(gameId);

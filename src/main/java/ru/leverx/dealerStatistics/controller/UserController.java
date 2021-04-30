@@ -7,6 +7,7 @@ import ru.leverx.dealerStatistics.dto.FeedbackDto;
 import ru.leverx.dealerStatistics.dto.GameDto;
 import ru.leverx.dealerStatistics.dto.UserDto;
 import ru.leverx.dealerStatistics.dto.UserResponseDto;
+import ru.leverx.dealerStatistics.entity.Feedback;
 import ru.leverx.dealerStatistics.entity.UserRole;
 import ru.leverx.dealerStatistics.service.FeedbackService;
 import ru.leverx.dealerStatistics.service.GameService;
@@ -37,18 +38,29 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserResponseDto> getUsers(@RequestParam(value = "role") UserRole role) {
+    public List<UserResponseDto> getUsers(@RequestParam(value = "role") UserRole role) {    //TODO чтобы выводило только аппрувнутых трейдеров
         return userService.getUsersByRole(role);
     }
 
     @GetMapping("/{userId}/feedbacks")
-    public List<FeedbackDto> getUserFeedbacks(@PathVariable Long userId) {
+    public List<FeedbackDto> getUserFeedbacks(@PathVariable Long userId) {  //TODO чтобы выводило только аппрувнутых
         return feedbackService.getFeedbacksByUserId(userId);
     }
 
     @GetMapping("/{userId}/games")
-    public List<GameDto> getUserGames(@PathVariable Long userId) {
+    public List<GameDto> getUserGames(@PathVariable Long userId) {  //TODO чтобы выводило только аппрувнутых
         return gameService.getGamessByUserId(userId);
     }
 
+    // only ADMIN can do this
+    @PutMapping("/{treiderId}")
+    public UserResponseDto approveTreider(@PathVariable Long treiderId){
+        return userService.approve(treiderId);
+    }
+
+    // only ADMIN can do this
+    @PutMapping("/{treiderId}/feedback/{feedbackId}")
+    public FeedbackDto approveFeedback(@PathVariable Long treiderId, @PathVariable Long feedbackId){
+        return feedbackService.approve(treiderId, feedbackId);
+    }
 }

@@ -32,8 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto create(UserDto userDto) {
-        userDto.setUserRole(UserRole.TREIDER);
+        //userDto.setUserRole(UserRole.TREIDER);
         User user = userMapper.toEntity(userDto);
+        user.setApproved(false);
         User saved = userRepository.save(user);
         calculateUserRating(saved);
         return userMapper.toDto(saved);
@@ -53,6 +54,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponseDto> getUsersByRole(UserRole role) {
         return listToDto(userRepository.findByUserRole(role));
+    }
+
+    @Override
+    public UserResponseDto approve(Long id) {
+        User user = userRepository.findById(id).get();
+        user.setApproved(true);
+        userRepository.save(user);
+        return userMapper.toDto(user);
     }
 
     public List<UserResponseDto> listToDto(List<User> users) {

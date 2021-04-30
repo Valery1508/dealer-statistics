@@ -36,6 +36,9 @@ public class User extends BaseEntity {
     @Column(name = "raiting")
     private Double raiting;
 
+    @Column(name = "approved")
+    private boolean approved;
+
     @OneToMany(mappedBy = "user")
     private List<Feedback> feedbacks = new ArrayList<>();
 
