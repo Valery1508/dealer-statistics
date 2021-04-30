@@ -3,10 +3,7 @@ package ru.leverx.dealerStatistics.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.leverx.dealerStatistics.dto.FeedbackDto;
-import ru.leverx.dealerStatistics.dto.GameDto;
-import ru.leverx.dealerStatistics.dto.UserDto;
-import ru.leverx.dealerStatistics.dto.UserResponseDto;
+import ru.leverx.dealerStatistics.dto.*;
 import ru.leverx.dealerStatistics.entity.Feedback;
 import ru.leverx.dealerStatistics.entity.UserRole;
 import ru.leverx.dealerStatistics.service.FeedbackService;
@@ -62,5 +59,10 @@ public class UserController {
     @PutMapping("/{treiderId}/feedback/{feedbackId}")
     public FeedbackDto approveFeedback(@PathVariable Long treiderId, @PathVariable Long feedbackId){
         return feedbackService.approve(treiderId, feedbackId);
+    }
+
+    @GetMapping("/top")
+    public List<UserTopResponseDto> getTopOfTreiders(){
+        return userService.getTopOfTreiders();
     }
 }

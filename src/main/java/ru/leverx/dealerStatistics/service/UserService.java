@@ -3,6 +3,7 @@ package ru.leverx.dealerStatistics.service;
 import org.springframework.stereotype.Service;
 import ru.leverx.dealerStatistics.dto.UserDto;
 import ru.leverx.dealerStatistics.dto.UserResponseDto;
+import ru.leverx.dealerStatistics.dto.UserTopResponseDto;
 import ru.leverx.dealerStatistics.entity.UserRole;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface UserService {
     List<UserResponseDto> getUsersByRole(UserRole role);
 
     UserResponseDto approve(Long id);
+
+    List<UserTopResponseDto> getTopOfTreiders();
 }

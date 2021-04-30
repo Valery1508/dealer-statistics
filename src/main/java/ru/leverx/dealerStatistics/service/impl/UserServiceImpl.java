@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.leverx.dealerStatistics.dto.UserDto;
 import ru.leverx.dealerStatistics.dto.UserResponseDto;
+import ru.leverx.dealerStatistics.dto.UserTopResponseDto;
 import ru.leverx.dealerStatistics.entity.User;
 import ru.leverx.dealerStatistics.entity.UserRole;
 import ru.leverx.dealerStatistics.exception.EntityNotFoundException;
 import ru.leverx.dealerStatistics.mapper.UserMapper;
+import ru.leverx.dealerStatistics.mapper.UserTopMapper;
 import ru.leverx.dealerStatistics.repository.FeedbackRepository;
 import ru.leverx.dealerStatistics.repository.UserRepository;
 import ru.leverx.dealerStatistics.service.UserService;
@@ -30,9 +32,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private UserTopMapper userTopMapper;
+
     @Override
     public UserResponseDto create(UserDto userDto) {
-        //userDto.setUserRole(UserRole.TREIDER);
         User user = userMapper.toEntity(userDto);
         user.setApproved(false);
         User saved = userRepository.save(user);
@@ -48,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void calculateUserRating(User user) {
-        user.setRaiting(feedbackRepository.findRatingByUserId(user.getId()));
+        user.setRating(feedbackRepository.findRatingByUserId(user.getId()));
     }
 
     @Override
@@ -64,7 +68,16 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(user);
     }
 
+    @Override
+    public List<UserTopResponseDto> getTopOfTreiders() {
+        return listToTopDto(userRepository.findAllTreidersOrderByRating(UserRole.TREIDER));
+    }
+
     public List<UserResponseDto> listToDto(List<User> users) {
         return users.stream().map(userMapper::toDto).collect(Collectors.toList());
+    }
+
+    public List<UserTopResponseDto> listToTopDto(List<User> users) {
+        return users.stream().map(userTopMapper::toDto).collect(Collectors.toList());
     }
 }

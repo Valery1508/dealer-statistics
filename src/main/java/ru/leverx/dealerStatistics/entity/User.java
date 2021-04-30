@@ -33,8 +33,8 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    @Column(name = "raiting")
-    private Double raiting;
+    @Column(name = "rating")
+    private Double rating;
 
     @Column(name = "approved")
     private boolean approved;

@@ -13,4 +13,7 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT u FROM User u WHERE u.userRole = :role")
     List<User> findByUserRole(@Param("role") UserRole role);
+
+    @Query(value = "SELECT u FROM User u WHERE u.userRole = :role ORDER BY u.rating DESC")
+    List<User> findAllTreidersOrderByRating(@Param("role") UserRole role);
 }
