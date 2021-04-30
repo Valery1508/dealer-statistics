@@ -12,4 +12,8 @@ public interface GameService {
     GameDto get(Long id);
 
     List<GameDto> getGames();
+
+    GameDto change(GameDto gameDto, Long id);
+
+    List<GameDto> delete(Long id);
 }

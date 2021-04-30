@@ -8,6 +8,7 @@ import ru.leverx.dealerStatistics.entity.Game;
 import ru.leverx.dealerStatistics.exception.EntityNotFoundException;
 import ru.leverx.dealerStatistics.mapper.GameMapper;
 import ru.leverx.dealerStatistics.repository.GameRepository;
+import ru.leverx.dealerStatistics.repository.UserRepository;
 import ru.leverx.dealerStatistics.service.GameService;
 
 import java.util.List;
@@ -19,6 +20,9 @@ public class GameServiceImpl implements GameService {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private GameMapper gameMapper;
@@ -39,6 +43,31 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<GameDto> getGames() {
         return listToDto((gameRepository.findAll()));
+    }
+
+    @Override
+    public GameDto change(GameDto gameDto, Long id) {
+//TODO проверка, что это авторизированный трейдер изменяет свои игры
+        if (gameRepository.findById(id).isEmpty()){
+            throw new EntityNotFoundException("Game with id = " + id + " doesn't exist!");
+        }
+        Game game = gameMapper.toEntity(gameDto);
+        game.setId(id);
+        game.setName(gameDto.getName());
+        game.setDescription(gameDto.getDescription());
+        game.setUser(userRepository.findById(gameDto.getUser_id()).get());
+        Game saved = gameRepository.save(game);
+        return gameMapper.toDto(saved);
+    }
+
+    @Override
+    public List<GameDto> delete(Long id) {
+        if (gameRepository.findById(id).isEmpty()){
+            throw new EntityNotFoundException("Game with id = " + id + " doesn't exist!");
+        }
+        gameRepository.deleteById(id);
+
+        return getGames();
     }
 
     public List<GameDto> listToDto(List<Game> games) {

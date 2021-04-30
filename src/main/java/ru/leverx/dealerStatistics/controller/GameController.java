@@ -30,4 +30,16 @@ public class GameController {
     public List<GameDto> getGames() {
         return gameService.getGames();
     }
+
+
+    @PutMapping("/{gameId}")
+    public ResponseEntity<GameDto> changeGame(@PathVariable Long gameId, @Valid @RequestBody GameDto gameDto){
+        return ResponseEntity.ok(gameService.change(gameDto, gameId));
+    }
+
+    // delete game of treider (by treider)
+    @DeleteMapping("/{gameId}")
+    public List<GameDto> deleteGame(@PathVariable Long gameId){
+        return gameService.delete(gameId);
+    }
 }
