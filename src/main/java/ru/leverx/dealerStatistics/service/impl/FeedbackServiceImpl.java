@@ -43,6 +43,11 @@ public class FeedbackServiceImpl implements FeedbackService {
         return listToDto(feedbackRepository.findAll());
     }
 
+    @Override
+    public List<FeedbackDto> getFeedbacksByUserId(Long userId) {
+        return listToDto(feedbackRepository.findAllByUserId(userId));
+    }
+
     public List<FeedbackDto> listToDto(List<Feedback> feedbacks) {
         return feedbacks.stream().map(feedbackMapper::toDto).collect(Collectors.toList());
     }

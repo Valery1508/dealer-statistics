@@ -14,4 +14,5 @@ public interface UserService {
     UserResponseDto get(Long id);
 
     List<UserResponseDto> getUsersByRole(UserRole role);
+
 }
