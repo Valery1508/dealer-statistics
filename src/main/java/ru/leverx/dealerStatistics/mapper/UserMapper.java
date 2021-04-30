@@ -1,13 +1,21 @@
 package ru.leverx.dealerStatistics.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.leverx.dealerStatistics.dto.UserDto;
+import ru.leverx.dealerStatistics.dto.UserResponseDto;
 import ru.leverx.dealerStatistics.entity.User;
 
 @Component
 public class UserMapper {
 
-    public User toEntity(UserDto userDto){
+    @Autowired
+    private FeedbackMapper feedbackMapper;
+
+    @Autowired
+    private GameMapper gameMapper;
+
+    public User toEntity(UserDto userDto) {
         User user = new User();
         user.setId(userDto.getId());
         user.setFirstName(userDto.getFirstName());
@@ -18,14 +26,15 @@ public class UserMapper {
         return user;
     }
 
-    public UserDto toDto(User user){
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword()); // TODO ???
-        userDto.setUserRole(user.getUserRole());
-        return userDto;
+    public UserResponseDto toDto(User user) {
+        UserResponseDto userResponseDto = new UserResponseDto();
+        userResponseDto.setId(user.getId());
+        userResponseDto.setFirstName(user.getFirstName());
+        userResponseDto.setLastName(user.getLastName());
+        userResponseDto.setEmail(user.getEmail());
+        userResponseDto.setRating(user.getRating());
+        userResponseDto.setFeedbacks(feedbackMapper.toDtos(user.getFeedbacks()));
+        userResponseDto.setGames(gameMapper.toDtos(user.getGames()));
+        return userResponseDto;
     }
 }
