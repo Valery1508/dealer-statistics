@@ -66,8 +66,12 @@ public class GameServiceImpl implements GameService {
             throw new EntityNotFoundException("Game with id = " + id + " doesn't exist!");
         }
         gameRepository.deleteById(id);
-
         return getGames();
+    }
+
+    @Override
+    public List<GameDto> getGamessByUserId(Long userId) {
+        return listToDto(gameRepository.findAllByUserId(userId));
     }
 
     public List<GameDto> listToDto(List<Game> games) {

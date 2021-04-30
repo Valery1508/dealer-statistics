@@ -16,4 +16,6 @@ public interface GameService {
     GameDto change(GameDto gameDto, Long id);
 
     List<GameDto> delete(Long id);
+
+    List<GameDto> getGamessByUserId(Long userId);
 }
