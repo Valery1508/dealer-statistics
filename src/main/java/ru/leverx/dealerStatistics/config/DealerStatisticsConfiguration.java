@@ -25,7 +25,7 @@ public class DealerStatisticsConfiguration implements WebMvcConfigurer {
     public DealerStatisticsConfiguration(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
-
+//todo delete views
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();

@@ -26,7 +26,7 @@ public class FeedbackController {
         return ResponseEntity.ok(feedbackService.create(feedbackDto));
     }
 
-    //TODO получать только APPROVED отзывы
+    //TODO получать только APPROVED отзывыВ
     @GetMapping
     public List<FeedbackDto> getFeedbacks(){
         return feedbackService.getFeedbacks();
