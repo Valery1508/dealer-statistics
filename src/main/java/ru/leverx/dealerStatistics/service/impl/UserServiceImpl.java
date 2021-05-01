@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDto get(Long id) {
+    public UserResponseDto get(Long id) {   //TODO убрать из dto пароль
         calculateUserRating(userRepository.findById(id).get());
         return userRepository.findById(id).map(userMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("User with id = " + id + " doesn't exist!"));
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDto> getUsersByRole(UserRole role) {
+    public List<UserResponseDto> getUsersByRole(UserRole role) {    //TODO убрать из dto пароль
         return listToDto(userRepository.findByUserRole(role));
     }
 
