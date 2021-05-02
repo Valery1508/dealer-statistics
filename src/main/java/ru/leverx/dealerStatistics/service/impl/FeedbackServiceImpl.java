@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 public class FeedbackServiceImpl implements FeedbackService {
 
     @Autowired
-    //@Qualifier("userRepository")
     private FeedbackRepository feedbackRepository;
 
     @Autowired
@@ -62,7 +61,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public List<FeedbackDto> getUserFeedbacks(Authentication authentication) {
-        AuthenticatedUser user = (AuthenticatedUser)authentication.getPrincipal();
+        AuthenticatedUser user = (AuthenticatedUser) authentication.getPrincipal();
         return listToDto(feedbackRepository.findAllByUserId(user.getId()));
     }
 

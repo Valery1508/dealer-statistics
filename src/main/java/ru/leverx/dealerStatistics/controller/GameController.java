@@ -21,7 +21,6 @@ public class GameController {
         return ResponseEntity.ok(gameService.get(id));
     }
 
-    //only authorized treider can do this
     @PostMapping
     public ResponseEntity<GameDto> create(@Valid @RequestBody GameDto gameDto) {
         return ResponseEntity.ok(gameService.create(gameDto));
