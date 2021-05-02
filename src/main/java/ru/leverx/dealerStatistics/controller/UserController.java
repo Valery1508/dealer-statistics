@@ -8,6 +8,7 @@ import ru.leverx.dealerStatistics.dto.*;
 import ru.leverx.dealerStatistics.entity.UserRole;
 import ru.leverx.dealerStatistics.service.FeedbackService;
 import ru.leverx.dealerStatistics.service.GameService;
+import ru.leverx.dealerStatistics.service.RegistrationService;
 import ru.leverx.dealerStatistics.service.UserService;
 
 import javax.validation.Valid;
@@ -24,6 +25,8 @@ public class UserController {
 
     private final GameService gameService;
 
+    private final RegistrationService registrationService;
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.get(id));
@@ -31,13 +34,12 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponseDto> register(@Valid @RequestBody UserDto userDto) {
-        return ResponseEntity.ok(userService.create(userDto));
+        return ResponseEntity.ok(registrationService.register(userDto));
     }
 
-    //////////
     @GetMapping("auth/confirm/{hash_code}")
     public ResponseEntity<UserResponseDto> confirmRegistration(@PathVariable String hash_code, @Valid @RequestBody EmailDto emailDto){
-        return ResponseEntity.ok(userService.confirmRegistration(hash_code, emailDto));
+        return ResponseEntity.ok(registrationService.confirmRegistration(hash_code, emailDto));
     }
 
     @GetMapping
