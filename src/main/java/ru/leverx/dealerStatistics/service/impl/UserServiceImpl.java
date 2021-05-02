@@ -5,6 +5,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.leverx.dealerStatistics.dto.EmailDto;
 import ru.leverx.dealerStatistics.dto.UserDto;
 import ru.leverx.dealerStatistics.dto.UserResponseDto;
 import ru.leverx.dealerStatistics.dto.UserTopResponseDto;
@@ -57,20 +58,21 @@ public class UserServiceImpl implements UserService {
         checkUserData(userDto);
 
         User userFromDB = userRepository.findByEmail(userDto.getEmail());
-        if(userFromDB != null) {
+        if (userFromDB != null) {
             throw new BadCredentialsException("Type another email!");
         }
 
         User user = userMapper.toEntity(userDto);
         user.setApproved(false);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setConfirmed(false);
 
         String code = generateCode();
-        System.out.println(code);
+        System.out.println(code);   //todo delete
         redisService.addCodeToRedis(user.getEmail(), code);
 
         String message = String.format(
-                "Hello, %s %s. Go to link http://localhost:8080/activate/%s to admit registration, please.",
+                "Hello, %s %s. Go to link http://localhost:8080/users/auth/confirm/%s to confirm registration, please.",
                 userDto.getFirstName(), userDto.getLastName(), code);
         emailService.sendMessage(userDto.getEmail(), "Activate registration code", message);
 
@@ -79,14 +81,14 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(saved);
     }
 
-    public void checkUserData(UserDto userDto){
-        if(userDto.getFirstName() == null || userDto.getLastName() == null || userDto.getEmail() == null
-                || userDto.getPassword() == null || userDto.getUserRole() != UserRole.TREIDER){
+    public void checkUserData(UserDto userDto) {
+        if (userDto.getFirstName() == null || userDto.getLastName() == null || userDto.getEmail() == null
+                || userDto.getPassword() == null || userDto.getUserRole() != UserRole.TREIDER) {
             throw new BadCredentialsException("Something went wrong, please, check your data!");
         }
     }
 
-    public String generateCode(){
+    public String generateCode() {
         Calendar cal = Calendar.getInstance();
         int sum = cal.get(YEAR) * YEAR + cal.get(MONTH) * MONTH + cal.get(Calendar.DAY_OF_MONTH) * Calendar.DAY_OF_MONTH + cal.get(Calendar.HOUR) * Calendar.HOUR + cal.get(Calendar.MINUTE) * Calendar.MINUTE + cal.get(Calendar.SECOND);
         String code = sum + "-" + UUID.randomUUID().toString();
@@ -125,6 +127,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponseDto> getUsersByRoleAndApproved(UserRole role) {
         return listToDto(userRepository.findByUserRoleAndApproved(role));
+    }
+
+    @Override
+    public UserResponseDto confirmRegistration(String code, EmailDto emailDto) {
+        User user = userRepository.findByEmail(emailDto.getEmail());
+        if (user == null) {
+            throw new BadCredentialsException("Invalid email");
+        }
+
+        if (!redisService.checkCodeFromRedis(emailDto.getEmail(), code)) {
+            throw new BadCredentialsException("Invalid code");
+        }
+        user.setConfirmed(true);
+        return userMapper.toDto(userRepository.save(user));
     }
 
     public List<UserResponseDto> listToDto(List<User> users) {

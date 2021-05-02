@@ -1,6 +1,7 @@
 package ru.leverx.dealerStatistics.service;
 
 import org.springframework.stereotype.Service;
+import ru.leverx.dealerStatistics.dto.EmailDto;
 import ru.leverx.dealerStatistics.dto.UserDto;
 import ru.leverx.dealerStatistics.dto.UserResponseDto;
 import ru.leverx.dealerStatistics.dto.UserTopResponseDto;
@@ -21,4 +22,6 @@ public interface UserService {
     List<UserTopResponseDto> getTopOfTreiders();
 
     List<UserResponseDto> getUsersByRoleAndApproved(UserRole role);
+
+    UserResponseDto confirmRegistration(String code, EmailDto emailDto);
 }

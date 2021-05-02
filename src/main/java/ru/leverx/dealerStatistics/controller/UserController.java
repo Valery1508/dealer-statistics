@@ -34,6 +34,12 @@ public class UserController {
         return ResponseEntity.ok(userService.create(userDto));
     }
 
+    //////////
+    @GetMapping("auth/confirm/{hash_code}")
+    public ResponseEntity<UserResponseDto> confirmRegistration(@PathVariable String hash_code, @Valid @RequestBody EmailDto emailDto){
+        return ResponseEntity.ok(userService.confirmRegistration(hash_code, emailDto));
+    }
+
     @GetMapping
     public List<UserResponseDto> getUsersByRole(@RequestParam(value = "role") UserRole role) {
         return userService.getUsersByRole(role);
