@@ -1,6 +1,7 @@
 package ru.leverx.dealerStatistics.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.leverx.dealerStatistics.dto.UserDto;
@@ -23,7 +24,6 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    //@Qualifier("userRepository")
     private UserRepository userRepository;
 
     @Autowired
@@ -35,10 +35,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserTopMapper userTopMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public UserResponseDto create(UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         user.setApproved(false);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User saved = userRepository.save(user);
         calculateUserRating(saved);
         return userMapper.toDto(saved);
@@ -71,6 +75,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserTopResponseDto> getTopOfTreiders() {
         return listToTopDto(userRepository.findAllTreidersOrderByRating(UserRole.TREIDER));
+    }
+
+    @Override
+    public List<UserResponseDto> getUsersByRoleAndApproved(UserRole role) {
+        return listToDto(userRepository.findByUserRoleAndApproved(role));
     }
 
     public List<UserResponseDto> listToDto(List<User> users) {

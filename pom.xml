@@ -20,6 +20,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <spring.version>5.3.6</spring.version>
+    <spring.security.version>5.4.6</spring.security.version>
   </properties>
 
   <dependencies>
@@ -72,28 +73,24 @@
       <artifactId>postgresql</artifactId>
       <version>42.2.20</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven-plugin -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok-maven-plugin</artifactId>
       <version>1.18.20.0</version>
       <scope>provided</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>4.0.1</version>
       <scope>provided</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>javax.servlet.jsp-api</artifactId>
       <version>2.3.3</version>
       <scope>provided</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl -->
     <dependency>
       <groupId>jstl</groupId>
       <artifactId>jstl</artifactId>
@@ -110,14 +107,12 @@
       <artifactId>thymeleaf-spring5</artifactId>
       <version>3.0.11.RELEASE</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
     <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
       <version>2.0.1.Final</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
@@ -129,6 +124,31 @@
       <artifactId>spring-context-support</artifactId>
       <version>5.2.8.RELEASE</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-taglibs</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>

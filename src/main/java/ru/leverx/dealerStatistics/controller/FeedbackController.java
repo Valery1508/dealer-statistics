@@ -17,18 +17,17 @@ public class FeedbackController {
     private final FeedbackService feedbackService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<FeedbackDto> getFeedbackById(@PathVariable Long id){
+    public ResponseEntity<FeedbackDto> getFeedbackById(@PathVariable Long id) {
         return ResponseEntity.ok(feedbackService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<FeedbackDto> create(@Valid @RequestBody FeedbackDto feedbackDto){
+    public ResponseEntity<FeedbackDto> create(@Valid @RequestBody FeedbackDto feedbackDto) {
         return ResponseEntity.ok(feedbackService.create(feedbackDto));
     }
 
-    //TODO получать только APPROVED отзывыВ
     @GetMapping
-    public List<FeedbackDto> getFeedbacks(){
+    public List<FeedbackDto> getFeedbacks() {
         return feedbackService.getFeedbacks();
     }
 }

@@ -2,12 +2,15 @@ package ru.leverx.dealerStatistics.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.leverx.dealerStatistics.dto.*;
 import ru.leverx.dealerStatistics.email.EmailService;
 import ru.leverx.dealerStatistics.entity.UserRole;
 import ru.leverx.dealerStatistics.service.FeedbackService;
 import ru.leverx.dealerStatistics.service.GameService;
+import ru.leverx.dealerStatistics.service.UserDetailsServiceImpl;
 import ru.leverx.dealerStatistics.service.UserService;
 
 import javax.validation.Valid;
@@ -41,8 +44,13 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserResponseDto> getUsers(@RequestParam(value = "role") UserRole role) {    //TODO чтобы выводило только аппрувнутых трейдеров
+    public List<UserResponseDto> getUsersByRole(@RequestParam(value = "role") UserRole role) {
         return userService.getUsersByRole(role);
+    }
+
+    @GetMapping("/treiders")
+    public List<UserResponseDto> getTreiders() {
+        return userService.getUsersByRoleAndApproved(UserRole.TREIDER);
     }
 
     @GetMapping("/{userId}/feedbacks")
@@ -52,17 +60,15 @@ public class UserController {
 
     @GetMapping("/{userId}/games")
     public List<GameDto> getUserGames(@PathVariable Long userId) {  //TODO чтобы выводило только аппрувнутых
-        return gameService.getGamessByUserId(userId);
+        return gameService.getGamesByUserId(userId);
     }
 
-    // only ADMIN can do this
-    @PutMapping("/{treiderId}")
+    @PutMapping("/approve/{treiderId}")
     public UserResponseDto approveTreider(@PathVariable Long treiderId) {
         return userService.approve(treiderId);
     }
 
-    // only ADMIN can do this
-    @PutMapping("/{treiderId}/feedback/{feedbackId}")
+    @PutMapping("/approve/{treiderId}/feedback/{feedbackId}")
     public FeedbackDto approveFeedback(@PathVariable Long treiderId, @PathVariable Long feedbackId) {
         return feedbackService.approve(treiderId, feedbackId);
     }
@@ -70,5 +76,15 @@ public class UserController {
     @GetMapping("/top")
     public List<UserTopResponseDto> getTopOfTreiders() {
         return userService.getTopOfTreiders();
+    }
+
+    @GetMapping("/my/games")
+    public List<GameDto> getAuthenticationUserGames(Authentication authentication) {
+        return gameService.getUserGames(authentication);
+    }
+
+    @GetMapping("/my/feedbacks")
+    public List<FeedbackDto> getAuthenticationUserFeedbacks(Authentication authentication) {
+        return feedbackService.getUserFeedbacks(authentication);
     }
 }

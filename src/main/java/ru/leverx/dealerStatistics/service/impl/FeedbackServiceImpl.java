@@ -1,9 +1,11 @@
 package ru.leverx.dealerStatistics.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.leverx.dealerStatistics.dto.FeedbackDto;
+import ru.leverx.dealerStatistics.entity.AuthenticatedUser;
 import ru.leverx.dealerStatistics.entity.Feedback;
 import ru.leverx.dealerStatistics.exception.EntityNotFoundException;
 import ru.leverx.dealerStatistics.mapper.FeedbackMapper;
@@ -43,6 +45,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         return listToDto(feedbackRepository.findAll());
     }
 
+    //todo только аппрувнутые отзывы аппрувнутых юзеров
     @Override
     public List<FeedbackDto> getFeedbacksByUserId(Long userId) {
         return listToDto(feedbackRepository.findAllByUserId(userId));
@@ -55,6 +58,12 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedback.setApproved(true);
         feedbackRepository.save(feedback);
         return feedbackMapper.toDto(feedback);
+    }
+
+    @Override
+    public List<FeedbackDto> getUserFeedbacks(Authentication authentication) {
+        AuthenticatedUser user = (AuthenticatedUser)authentication.getPrincipal();
+        return listToDto(feedbackRepository.findAllByUserId(user.getId()));
     }
 
     public List<FeedbackDto> listToDto(List<Feedback> feedbacks) {
