@@ -39,7 +39,7 @@ public class UserController {
     public ResponseEntity<UserResponseDto> create(@Valid @RequestBody UserDto userDto) {
         emailService.sendMessage(userDto.getEmail(), "Registration form",
                 "Hello, " + userDto.getFirstName() + " " + userDto.getLastName() +
-                        ", Admit registration, please!"); //todo мейби вынести в юзерсервис
+                        ", Admit registration, please!"); //todo вынести в юзерсервис
         return ResponseEntity.ok(userService.create(userDto));
     }
 
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/games")
-    public List<GameDto> getUserGames(@PathVariable Long userId) {  //TODO чтобы выводило только аппрувнутых
+    public List<GameDto> getUserGames(@PathVariable Long userId) {
         return gameService.getGamesByUserId(userId);
     }
 

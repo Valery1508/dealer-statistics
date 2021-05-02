@@ -30,18 +30,10 @@ public class UserDto extends BaseEntity {
     @Size(min = 5, max = 50)
     private String email;
 
-    //TODO ?
-    //@NotBlank
+    @NotBlank
     @Size(message = "password is too short (min = 8) or too long (max = 25)", min = 8, max = 70)
     private String password;
 
     @NotNull
     private UserRole userRole;
-
-    ///
-    /*@NotEmpty
-    private List<FeedbackDto> feedbacks;*/
-
-    /*@NotEmpty
-    private List<GameDto> games;*/
 }

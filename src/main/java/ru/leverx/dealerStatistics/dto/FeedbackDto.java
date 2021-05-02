@@ -20,6 +20,5 @@ public class FeedbackDto extends BaseDto {
     @NotNull
     private double rating;
 
-    //@NotBlank //?
     private Long user_id;
 }

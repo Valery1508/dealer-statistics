@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDto> getUsersByRole(UserRole role) {    //TODO убрать из dto пароль
+    public List<UserResponseDto> getUsersByRole(UserRole role) {
         return listToDto(userRepository.findByUserRole(role));
     }
 
