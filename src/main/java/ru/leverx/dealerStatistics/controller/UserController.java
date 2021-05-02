@@ -2,15 +2,12 @@ package ru.leverx.dealerStatistics.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.leverx.dealerStatistics.dto.*;
-import ru.leverx.dealerStatistics.email.EmailService;
 import ru.leverx.dealerStatistics.entity.UserRole;
 import ru.leverx.dealerStatistics.service.FeedbackService;
 import ru.leverx.dealerStatistics.service.GameService;
-import ru.leverx.dealerStatistics.service.UserDetailsServiceImpl;
 import ru.leverx.dealerStatistics.service.UserService;
 
 import javax.validation.Valid;
@@ -27,19 +24,13 @@ public class UserController {
 
     private final GameService gameService;
 
-    private final EmailService emailService;
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.get(id));
     }
 
-    // registration
     @PostMapping
-    public ResponseEntity<UserResponseDto> create(@Valid @RequestBody UserDto userDto) {
-        emailService.sendMessage(userDto.getEmail(), "Registration form",
-                "Hello, " + userDto.getFirstName() + " " + userDto.getLastName() +
-                        ", Admit registration, please!"); //todo вынести в юзерсервис
+    public ResponseEntity<UserResponseDto> register(@Valid @RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.create(userDto));
     }
 

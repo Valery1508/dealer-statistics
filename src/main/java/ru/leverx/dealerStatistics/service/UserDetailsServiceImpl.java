@@ -24,6 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("User with email " + email + " not found!");
         }
 
+        //проверка, confirmed = true
+
         return new AuthenticatedUser(
                 (org.springframework.security.core.userdetails.User) org.springframework.security.core.userdetails.User.builder()
                         .username(user.getEmail())
