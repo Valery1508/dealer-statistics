@@ -1,5 +1,6 @@
 package ru.leverx.dealerStatistics.service;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ru.leverx.dealerStatistics.dto.FeedbackDto;
 
@@ -16,4 +17,6 @@ public interface FeedbackService {
     List<FeedbackDto> getFeedbacksByUserId(Long userId);
 
     FeedbackDto approve(Long userId, Long feedbackId);
+
+    List<FeedbackDto> getUserFeedbacks(Authentication authentication);
 }

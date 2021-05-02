@@ -73,6 +73,11 @@ public class UserServiceImpl implements UserService {
         return listToTopDto(userRepository.findAllTreidersOrderByRating(UserRole.TREIDER));
     }
 
+    @Override
+    public List<UserResponseDto> getUsersByRoleAndApproved(UserRole role) {
+        return listToDto(userRepository.findByUserRoleAndApproved(role));
+    }
+
     public List<UserResponseDto> listToDto(List<User> users) {
         return users.stream().map(userMapper::toDto).collect(Collectors.toList());
     }

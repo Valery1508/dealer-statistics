@@ -1,9 +1,11 @@
 package ru.leverx.dealerStatistics.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.leverx.dealerStatistics.dto.GameDto;
+import ru.leverx.dealerStatistics.entity.AuthenticatedUser;
 import ru.leverx.dealerStatistics.entity.Game;
 import ru.leverx.dealerStatistics.exception.EntityNotFoundException;
 import ru.leverx.dealerStatistics.mapper.GameMapper;
@@ -47,7 +49,6 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public GameDto change(GameDto gameDto, Long id) {
-//TODO проверка, что это авторизированный трейдер изменяет свои игры
         if (gameRepository.findById(id).isEmpty()){
             throw new EntityNotFoundException("Game with id = " + id + " doesn't exist!");
         }
@@ -70,11 +71,18 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<GameDto> getGamessByUserId(Long userId) {
+    public List<GameDto> getGamesByUserId(Long userId) {
         return listToDto(gameRepository.findAllByUserId(userId));
+    }
+
+    @Override
+    public List<GameDto> getUserGames(Authentication authentication) {
+        AuthenticatedUser user = (AuthenticatedUser)authentication.getPrincipal();
+        return listToDto(gameRepository.findAllByUserId(user.getId()));
     }
 
     public List<GameDto> listToDto(List<Game> games) {
         return games.stream().map(gameMapper::toDto).collect(Collectors.toList());
     }
+
 }

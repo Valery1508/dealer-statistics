@@ -16,6 +16,7 @@ public class FeedbackController {
 
     private final FeedbackService feedbackService;
 
+    //TODO ADMIN
     @GetMapping(value = "/{id}")
     public ResponseEntity<FeedbackDto> getFeedbackById(@PathVariable Long id){
         return ResponseEntity.ok(feedbackService.get(id));
@@ -26,7 +27,7 @@ public class FeedbackController {
         return ResponseEntity.ok(feedbackService.create(feedbackDto));
     }
 
-    //TODO получать только APPROVED отзывыВ
+    //TODO ADMIN
     @GetMapping
     public List<FeedbackDto> getFeedbacks(){
         return feedbackService.getFeedbacks();

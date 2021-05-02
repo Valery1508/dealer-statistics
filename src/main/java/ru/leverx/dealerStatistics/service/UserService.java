@@ -19,4 +19,6 @@ public interface UserService {
     UserResponseDto approve(Long id);
 
     List<UserTopResponseDto> getTopOfTreiders();
+
+    List<UserResponseDto> getUsersByRoleAndApproved(UserRole role);
 }
