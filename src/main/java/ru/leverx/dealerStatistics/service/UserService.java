@@ -1,16 +1,15 @@
 package ru.leverx.dealerStatistics.service;
 
 import org.springframework.stereotype.Service;
-import ru.leverx.dealerStatistics.dto.UserDto;
 import ru.leverx.dealerStatistics.dto.UserResponseDto;
 import ru.leverx.dealerStatistics.dto.UserTopResponseDto;
+import ru.leverx.dealerStatistics.entity.User;
 import ru.leverx.dealerStatistics.entity.UserRole;
 
 import java.util.List;
 
 @Service
 public interface UserService {
-    UserResponseDto create(UserDto userDto);
 
     UserResponseDto get(Long id);
 
@@ -21,4 +20,6 @@ public interface UserService {
     List<UserTopResponseDto> getTopOfTreiders();
 
     List<UserResponseDto> getUsersByRoleAndApproved(UserRole role);
+
+    void calculateUserRating(User user);
 }

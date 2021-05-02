@@ -1,10 +1,8 @@
 package ru.leverx.dealerStatistics.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.leverx.dealerStatistics.dto.UserDto;
 import ru.leverx.dealerStatistics.dto.UserResponseDto;
 import ru.leverx.dealerStatistics.dto.UserTopResponseDto;
 import ru.leverx.dealerStatistics.entity.User;
@@ -35,26 +33,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserTopMapper userTopMapper;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Override
-    public UserResponseDto create(UserDto userDto) {
-        User user = userMapper.toEntity(userDto);
-        user.setApproved(false);
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        User saved = userRepository.save(user);
-        calculateUserRating(saved);
-        return userMapper.toDto(saved);
-    }
-
-    @Override
-    public UserResponseDto get(Long id) {   //TODO убрать из dto пароль
+    public UserResponseDto get(Long id) {
         calculateUserRating(userRepository.findById(id).get());
         return userRepository.findById(id).map(userMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("User with id = " + id + " doesn't exist!"));
     }
 
+    @Override
     public void calculateUserRating(User user) {
         user.setRating(feedbackRepository.findRatingByUserId(user.getId()));
     }
