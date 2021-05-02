@@ -72,7 +72,6 @@ public class DatabaseConfig {
         return sessionFactoryBean;
     }
 
-    // todo то же самое что и метод sessionFactory ПОХОДУ
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em
@@ -103,12 +102,10 @@ public class DatabaseConfig {
         return transactionManager;
     }
 
-    //без него не лезет в базу
     @Bean
     public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
-
         return transactionManager;
     }
 
